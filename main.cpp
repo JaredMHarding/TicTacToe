@@ -1,14 +1,16 @@
 #include <iostream>
-
 #include "NewGame.h"
 #include "TicTacToe.h"
-#include "GridGame.h"
-#include "Grid.h"
 
 int main(int argc, char* argv[]) {
-	int n = 3;
-	GridGame* name = new TicTacToe();
-  name->drawGrid();
-
+	TicTacToe* g = new TicTacToe();
+  g->drawGrid();
+  //bool flag = g->placeMark(0, 0, 1);
+  g->drawGrid();
+  /*g->setNumber(1, 1, 2);
+  g->drawGrid();
+  g->setNumber(2, 2, 1);
+  g->drawGrid();
+  */
 	return 0;
 }

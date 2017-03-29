@@ -6,19 +6,29 @@ private:
   int **board;
   int size;
 
+  bool isValid(int row, int col) const {
+    if (row < 0 || col < 0 || row >= size || col >= size) {
+      return false;
+    }
+    return true;
+  }
+
 public:
 	Grid(int n){
-	//Constructor that creates an empty grid where n denotes the
-		//number of rows (and the number of columns).
+    //Constructor that creates an empty grid where n denotes the
+		//number of rows (and the number of columns)
     size = n;
     board = new int*[size];
     for (int i = 0; i < size; i++) {
       board[i] = new int[size];
-      for (int j = 0; j < size; j++) {
+      /*for (int j = 0; j < size; j++) {
         board[i][j] = 0;
-      }
+      }*/
     }
 	}
+
+  // default constructor
+  Grid() {}
 
 	Grid(const Grid& obj){
 		//Copy constructor that creates a grid with an object
@@ -41,7 +51,7 @@ public:
     obj.board = nullptr;
 	}
 
-	int getNumber(int row, int col) const{
+	int getNumber(int row, int col) const {
 		//Read number at grid location (row,col).
     if (isValid(row, col)) {
       return board[row][col];
@@ -49,13 +59,14 @@ public:
     return -1;
 	}
 
-	void setNumber(int row, int col, int num) {
+	bool setNumber(int row, int col, int num) {
 		// Set number at grid location (row, col) to "num"
+    //std::cout << "in setNumber()";
     if (isValid(row, col)) {
       board[row][col] = num;
-    } else {
-      return;
+      return true;
     }
+    return false;
 	}
 
 	bool isFixed(int row, int col) const {
@@ -77,13 +88,6 @@ public:
 
   int getSize() {
     return size;
-  }
-
-  bool isValid(int row, int col) const {
-    if (row < 0 || col < 0 || row > size || col > size) {
-      return false;
-    }
-    return true;
   }
 
 	~Grid(){
