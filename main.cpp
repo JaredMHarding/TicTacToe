@@ -5,20 +5,10 @@
 #include "GridGame.h"
 #include "Grid.h"
 
-void doStuff(Grid* name){
-
-}
-
-int main(int argc, char* argv[]){
-
-	std::cout << "Hello World\n";
-
+int main(int argc, char* argv[]) {
 	int n = 3;
-
-	Grid* name = new Grid(n);
-
-	doStuff(name);
-
+	GridGame* name = new TicTacToe();
+  name->drawGrid();
 
 	return 0;
 }
