@@ -21,9 +21,9 @@ public:
     board = new int*[size];
     for (int i = 0; i < size; i++) {
       board[i] = new int[size];
-      /*for (int j = 0; j < size; j++) {
+      for (int j = 0; j < size; j++) {
         board[i][j] = 0;
-      }*/
+      }
     }
 	}
 
