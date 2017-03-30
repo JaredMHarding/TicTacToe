@@ -1,3 +1,5 @@
+#include <iostream>
+#include <string.h>
 #include "GridGame.h"
 class TicTacToe : public GridGame {
 public:
@@ -51,21 +53,62 @@ public:
   }
 
   bool placeMark(int row, int col, int player) {
-    if (grid->isFixed(row,col)) {
-      return false;
+    if (grid->setNumber(row, col, player)) {
+      return true;
     }
-    grid->setNumber(row,col,player);
-    return true;
+    return false;
   }
 
-  void placeMark(int player) {
-    int row, col;
-    aiChoose(&row, &col);
-    placeMark(row,col,player);
+  void gameOver(int endState) {
+    std::string playAgain;
+    std::string winner = (endState == 1) ? "The human" : "The computer";
+    std::cout << "Game over!" << "\n";
+    if (endState == 0) {
+      std::cout << "It is a tie!" << "\n";
+    } else {
+      std::cout << winner << " won!" << "\n";
+    }
+    std::cout << "Would you like to play again? Enter 'y' or 'n'\n";
+    std::cin >> playAgain;
+    if (playAgain.compare("y") == 0) {
+      grid->clearGrid();
+      startGame();
+    } else {
+      std::cout << "Thanks for playing! GOODBYE\n";
+      exit(0);
+    }
   }
 
   void startGame() {
-
+    int row;
+    int col;
+    int winner;
+    std::cout << "Welcome to TicTacToe!" << '\n';
+    while(true) {
+      drawGrid();
+      std::cout << "Enter your desired row number (0 based): " << '\n';
+      std::cin >> row;
+      std::cout << "Enter your desired column number(0 based): " << '\n';
+      std::cin >> col;
+      // human move
+      while (!placeMark(row, col, human_X)) {
+        std::cout << "Enter your desired row number (0 based): " << '\n';
+        std::cin >> row;
+        std::cout << "Enter your desired column number(0 based): " << '\n';
+        std::cin >> col;
+      }
+      // human move
+      if ((winner = getStatus()) != 3) {
+        break;
+      }
+      // AI move
+      placeMark(AI_O);
+      if ((winner = getStatus()) != 3) {
+        break;
+      }
+    }
+    drawGrid();
+    gameOver(winner);
   }
 
 	~TicTacToe() {}

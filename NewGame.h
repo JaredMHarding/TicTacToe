@@ -1,31 +1,122 @@
-class NewGame {
+#include <iostream>
+#include <string.h>
+#include "GridGame.h"
+class NewGame : public GridGame{
+public:
+	static const int gridSize = 5;
+  static const int human_X = 1;
+  static const int AI_O = 2;
 
-	NewGame() {
-		//Default constructor
+	NewGame() : GridGame(gridSize){}
+
+	int getStatus() const{
+		//According to the game you designed,
+		// return different values to indicate the game status.
+		//return 0 if the game is a tie;
+    //return 1 if the first player has won the game; return 2
+  	//if the second player has won the game; return 3 otherwise.
+    int vert = checkWinsVert();
+    int hor = checkWinsHor();
+    int NWSE = checkWinsNWSE();
+    int NESW = checkWinsNESW();
+    if (vert == 1 || hor == 1 || NWSE == 1 || NESW == 1) return 1;
+    if (vert == 2 || hor == 2 || NWSE == 2 || NESW == 2) return 2;
+
+    if (vert == -1 && hor == -1 && NWSE == -1 && NESW == -1) {
+      for (int i = 0; i < gridSize; i++) {
+        for (int j = 0; j < gridSize; j++) {
+          // if there is a 0 still in board, return 3 to keep playing
+          if (!grid->isFixed(i, j)) return 3;
+        }
+      }
+    }
+    // a tie!
+    return 0;
 	}
 
-	int getStatus() const; //According to the game you designed,
-	// return different values to indicate the game status.
+	void placeMark(int player) {
+		
+	}
 
-	bool placeMark1(int row, int col, int p) {  //Return false if the
-	// location is already fixed; otherwise, place a mark at the grid
-	// location (row,col) for player “p”, i.e., invoking
-	// setNumber(row, col, p) of the nested Grid object and return true.
+	bool placeMark(int row, int col, int player) {  //Return false if the
+		if (grid->setNumber(row, col, player)) {
+			return true;
+		}
 		return false;
 	}
 
+	void gameOver(int endState) {
+		std::string playAgain;
+		std::string winner = (endState == 1) ? "The human" : "The computer";
+		std::cout << "Game over!" << "\n";
+		if (endState == 0) {
+			std::cout << "It is a tie!" << "\n";
+		} else {
+			std::cout << winner << " won!" << "\n";
+		}
+		std::cout << "Would you like to play again? Enter 'y' or 'n'\n";
+		std::cin >> playAgain;
+		if (playAgain.compare("y") == 0) {
+			grid->clearGrid();
+			startGame();
+		} else {
+			std::cout << "Thanks for playing! GOODBYE\n";
+			exit(0);
+		}
+	}
 
-	void placeMark2(int row, int col, int p); //Use some algorithm such
-	// as “minimax” to place a mark on an empty location for player “p”
+	void startGame() {
+		int row;
+		int col;
+		int winner;
+		std::cout << "Welcome to TicTacNo!" << '\n';
+		std::cout << "This game is the anti-TicTacToe.\n";
+		std::cout << "Try to avoid making 3 in a row on this 5x5 grid.\n";
+		std::cout << "Whoever makes 3 in a row first looses!\n";
+		while(true) {
+			drawGrid();
+			std::cout << "Enter your desired row number (0 based): " << '\n';
+			std::cin >> row;
+			std::cout << "Enter your desired column number(0 based): " << '\n';
+			std::cin >> col;
+			// human move
+			while (!placeMark(row, col, human_X)) {
+				std::cout << "Enter your desired row number (0 based): " << '\n';
+				std::cin >> row;
+				std::cout << "Enter your desired column number(0 based): " << '\n';
+				std::cin >> col;
+			}
+			// human move
+			if ((winner = getStatus()) != 3) {
+				break;
+			}
+			// AI move
+			placeMark(AI_O);
+			if ((winner = getStatus()) != 3) {
+				break;
+			}
+		}
+		drawGrid();
+		gameOver(winner);
+	}
+	// Deconstructor
+	~NewGame() {}
 
-	/*
+private:
+	int checkWinsHor() const {
+		return -1;
+	}
 
-	Add other methods needed in order to play computer
+	int checkWinsVert() const {
+		return -1;
+	}
 
-	*/
+	int checkWinsNWSE() const {
+		return -1;
+	}
 
-	~NewGame() {
-		// Deconstructor
+	int checkWinsNESW() const {
+		return -1;
 	}
 
 };

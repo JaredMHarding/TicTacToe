@@ -3,3 +3,6 @@
 *.pdf
 *.o
 TicTacToe
+/Xcode*
+.gdbinit
+undefined/
