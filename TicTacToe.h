@@ -2,6 +2,9 @@
 class TicTacToe : public GridGame {
 public:
   static const int gridSize = 3;
+  static const int empty = 0;
+  static const int human_X = 1;
+  static const int AI_O = 2;
 
 	TicTacToe() : GridGame(gridSize) {}
 
@@ -28,22 +31,41 @@ public:
     return 0;
   }
 
-  void placeMark(int player) {
-    //TODO this is call virtual bool placeMark to make sure that its valid
-    // also do stdin to take move from player
-    std::cout << "";
+  void aiChoose(int* row, int* col) {
+    int score = 10;
+
+    for (int i = 0;i < gridSize;i++) {
+      for (int j = 0;j < gridSize;j++) {
+        if (!grid->isFixed(i,j)) {
+          grid->setNumber(i,j,AI_O);
+          int tempScore = YMove(i,j);
+          grid->setNumber(i,j,empty);
+          if (tempScore < score) {
+            score = tempScore;
+            *row = i;
+            *col = j;
+          }
+        }
+      }
+    }
   }
 
-  virtual bool placeMark(int row, int col, int player) {
-    if (grid->setNumber(row, col, player)) {
-      return true;
+  bool placeMark(int row, int col, int player) {
+    if (grid->isFixed(row,col)) {
+      return false;
     }
-    return false;
+    grid->setNumber(row,col,player);
+    return true;
+  }
+
+  void placeMark(int player) {
+    int row, col;
+    aiChoose(&row, &col);
+    placeMark(row,col,player);
   }
 
   void startGame() {
-    std::cout << "Welcome to TicTacToe!" << '\n';
-    std::cout << "Please enter you " << '\n';
+
   }
 
 	~TicTacToe() {}
@@ -95,5 +117,43 @@ private:
       return first;
     }
     return -1;
+  }
+
+  int IMove() {
+    if (getStatus() != 3) {
+      return 10;
+    }
+    int score = 10;
+    for (int i = 0;i < gridSize;i++) {
+      for (int j = 0;j < gridSize;j++) {
+        if (!grid->isFixed(i,j)) {
+          grid->setNumber(i,j,AI_O);
+          int tempScore = YMove();
+          grid->setNumber(i,j,empty);
+          if (tempScore < score) {
+            score = tempScore;
+          }
+        }
+      }
+    }
+  }
+
+  int YMove() {
+    if (getStatus() != 3) {
+      return -10;
+    }
+    int score = -10;
+    for (int i = 0;i < gridSize;i++) {
+      for (int j = 0;j < gridSize;j++) {
+        if (!grid->isFixed(i,j)) {
+          grid->setNumber(i,j,human_X);
+          int tempScore = IMove();
+          grid->setNumber(i,j,empty);
+          if (tempScore > score) {
+            score = tempScore;
+          }
+        }
+      }
+    }
   }
 };
