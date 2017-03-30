@@ -26,6 +26,7 @@ public:
         printMove(move);
         std::cout << '|';
       }
+      move = grid->getNumber(i, j);
       printMove(move);
       std::cout << '\n';
     }
