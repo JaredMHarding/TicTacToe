@@ -8,6 +8,7 @@ private:
 
   bool isValid(int row, int col) const {
     if (row < 0 || col < 0 || row >= size || col >= size) {
+      std::cout << "INVALID MOVE! Row and column choices must be less than 3. Try again..." << '\n';
       return false;
     }
     return true;
@@ -62,10 +63,11 @@ public:
 	bool setNumber(int row, int col, int num) {
 		// Set number at grid location (row, col) to "num"
     //std::cout << "in setNumber()";
-    if (isValid(row, col)) {
+    if (!isFixed(row, col)) {
       board[row][col] = num;
       return true;
     }
+    std::cout << "INVALID MOVE! That location is taken...try again!" << '\n';
     return false;
 	}
 

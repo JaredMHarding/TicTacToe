@@ -1,7 +1,15 @@
+#include <iostream>
+#include <string.h>
 #include "GridGame.h"
 class TicTacToe : public GridGame {
 public:
   static const int gridSize = 3;
+  static const int human_X = 1;
+  static const int AI_O = 2;
+
+  static const void p(std::string msg) {
+    std::cout << msg << '\n';
+  }
 
 	TicTacToe() : GridGame(gridSize) {}
 
@@ -31,10 +39,9 @@ public:
   void placeMark(int player) {
     //TODO this is call virtual bool placeMark to make sure that its valid
     // also do stdin to take move from player
-    std::cout << "";
   }
 
-  virtual bool placeMark(int row, int col, int player) {
+  bool placeMark(int row, int col, int player) {
     if (grid->setNumber(row, col, player)) {
       return true;
     }
@@ -42,8 +49,23 @@ public:
   }
 
   void startGame() {
+    int row;
+    int col;
     std::cout << "Welcome to TicTacToe!" << '\n';
-    std::cout << "Please enter you " << '\n';
+    do {
+      this->drawGrid();
+      std::cout << "Enter your desired row number (0 based): " << '\n';
+      std::cin >> row;
+      std::cout << "Enter your desired column number(0 based): " << '\n';
+      std::cin >> col;
+      while (!placeMark(row, col, human_X)) {
+        std::cout << "Enter your desired row number (0 based): " << '\n';
+        std::cin >> row;
+        std::cout << "Enter your desired column number(0 based): " << '\n';
+        std::cin >> col;
+      }
+      placeMark(AI_O);
+    } while (getStatus() == 3);
   }
 
 	~TicTacToe() {}
