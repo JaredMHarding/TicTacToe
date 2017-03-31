@@ -7,6 +7,7 @@ public:
   static const int empty = 0;
   static const int human_X = 1;
   static const int AI_O = 2;
+  static const int inf = 1<<20;
 
 	TicTacToe() : GridGame(gridSize) {}
 
@@ -62,9 +63,8 @@ public:
   }
 
   void placeMark(int player) {
-    int row = 0;
-    int col = 0;
-    aiChoose(&row, &col);
+    int row, col;
+    aiChoose(player,0,&row,&col);
     placeMark(row, col, player);
   }
 
@@ -194,7 +194,7 @@ private:
     }
     return score;
   }
-
+/*
   void aiChoose(int* row, int* col) {
     int score = 10;
 
@@ -215,6 +215,52 @@ private:
       }
     }
   }
+*/
+  int aiChoose(int player, int n, int* row, int* col) {
+    int result;
+    int max = -inf;
+    int min = inf;
 
+    int status = getStatus();
+    if (status != 3) {
+      return status;
+    }
+    for (int i = 0;i < gridSize;i++) {
+      for (int j = 0;j < gridSize;j++) {
+        if (!grid->isFixed(i,j)) {
+          if (player == AI_O) {
+            placeMark(i,j,AI_O);
+            result = aiChoose(human_X,n+1,row,col);
+            placeMark(i,j,empty);
+            if (result < min) {
+              min = result;
+              if (n == 0) {
+                *row = i;
+                *col = j;
+              }
+            }
+          }
+          else if (player == human_X) {
+            placeMark(i,j,human_X);
+            result = aiChoose(AI_O,n+1,row,col);
+            placeMark(i,j,empty);
+            if (result > max) {
+              max = result;
+              if (n == 0) {
+                *row = i;
+                *col = j;
+              }
+            }
+          }
+        }
+      }
+    }
+    if (player == human_X) {
+      return max;
+    }
+    else {
+      return min;
+    }
+  }
 
 };
