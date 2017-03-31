@@ -64,8 +64,15 @@ public:
 		// Set number at grid location (row, col) to "num"
     //std::cout << "in setNumber()"
     if (isValid(row, col)) {
+      // this is for the ai, so it can clear it
+      if (num == 0) {
+        board[row][col] = num;
+        return true;
+      }
       if (isFixed(row, col)) { // if not empty...
-        std::cout << "INVALID MOVE! That location is taken...try again!" << '\n';
+        if (num == 1) {
+          std::cout << "INVALID MOVE! That location is taken...try again!" << '\n';
+        }
         return false;
       }
       board[row][col] = num;

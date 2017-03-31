@@ -2,7 +2,7 @@
 .idea/
 *.pdf
 *.o
-TicTacToe
+Games
 /Xcode*
 .gdbinit
 undefined/

@@ -33,24 +33,6 @@ public:
     return 0;
   }
 
-  void aiChoose(int* row, int* col) {
-    int score = 10;
-
-    for (int i = 0;i < gridSize;i++) {
-      for (int j = 0;j < gridSize;j++) {
-        if (!grid->isFixed(i,j)) {
-          grid->setNumber(i,j,AI_O);
-          int tempScore = YMove(i,j);
-          grid->setNumber(i,j,empty);
-          if (tempScore < score) {
-            score = tempScore;
-            *row = i;
-            *col = j;
-          }
-        }
-      }
-    }
-  }
 
   bool placeMark(int row, int col, int player) {
     if (grid->setNumber(row, col, player)) {
@@ -77,6 +59,13 @@ public:
       std::cout << "Thanks for playing! GOODBYE\n";
       exit(0);
     }
+  }
+
+  void placeMark(int player) {
+    int row = 0;
+    int col = 0;
+    aiChoose(&row, &col);
+    placeMark(row, col, player);
   }
 
   void startGame() {
@@ -171,14 +160,17 @@ private:
       for (int j = 0;j < gridSize;j++) {
         if (!grid->isFixed(i,j)) {
           grid->setNumber(i,j,AI_O);
+          //drawGrid();
           int tempScore = YMove();
           grid->setNumber(i,j,empty);
+          //drawGrid();
           if (tempScore < score) {
             score = tempScore;
           }
         }
       }
     }
+    return score;
   }
 
   int YMove() {
@@ -190,13 +182,39 @@ private:
       for (int j = 0;j < gridSize;j++) {
         if (!grid->isFixed(i,j)) {
           grid->setNumber(i,j,human_X);
+          //drawGrid();
           int tempScore = IMove();
           grid->setNumber(i,j,empty);
+          //drawGrid();
           if (tempScore > score) {
             score = tempScore;
           }
         }
       }
     }
+    return score;
   }
+
+  void aiChoose(int* row, int* col) {
+    int score = 10;
+
+    for (int i = 0;i < gridSize;i++) {
+      for (int j = 0;j < gridSize;j++) {
+        if (!grid->isFixed(i,j)) {
+          grid->setNumber(i,j,AI_O);
+          //drawGrid();
+          int tempScore = YMove();
+          grid->setNumber(i,j,empty);
+          //drawGrid();
+          if (tempScore < score) {
+            score = tempScore;
+            *row = i;
+            *col = j;
+          }
+        }
+      }
+    }
+  }
+
+
 };
