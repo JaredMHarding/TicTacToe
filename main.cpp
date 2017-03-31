@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[]) {
 	TicTacToe* g = new TicTacToe();
-  //NewGame* g = new NewGame();
-  g->startGame();
+    //NewGame* g = new NewGame();
+    g->startGame();
 	return 0;
 }
