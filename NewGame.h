@@ -35,7 +35,7 @@ public:
 	}
 
 	void placeMark(int player) {
-		
+
 	}
 
 	bool placeMark(int row, int col, int player) {  //Return false if the
@@ -47,7 +47,7 @@ public:
 
 	void gameOver(int endState) {
 		std::string playAgain;
-		std::string winner = (endState == 1) ? "The human" : "The computer";
+		std::string winner = (endState == 1) ? "The computer" : "The human";
 		std::cout << "Game over!" << "\n";
 		if (endState == 0) {
 			std::cout << "It is a tie!" << "\n";
@@ -104,18 +104,50 @@ public:
 
 private:
 	int checkWinsHor() const {
+		int first, second, third;
+    for (int i = 0; i < gridSize; i++) {
+      first = grid->getNumber(i, 0);
+      second = grid->getNumber(i, 1);
+      third = grid->getNumber(i, 2);
+      if (first == second && second == third && first != 0) {
+        return first;
+      }
+    }
 		return -1;
 	}
 
 	int checkWinsVert() const {
+		int first, second, third;
+    for (int i = 0; i < gridSize; i++) {
+      first = grid->getNumber(0, i);
+      second = grid->getNumber(1, i);
+      third = grid->getNumber(2, i);
+      if (first == second && second == third && first != 0) {
+        return first;
+      }
+    }
 		return -1;
 	}
 
 	int checkWinsNWSE() const {
+		int first, second, third;
+    first = grid->getNumber(0, 0);
+    second = grid->getNumber(1, 1);
+    third = grid->getNumber(2, 2);
+    if (first == second && second == third && first != 0) {
+      return first;
+    }
 		return -1;
 	}
 
 	int checkWinsNESW() const {
+		int first, second, third;
+    first = grid->getNumber(0, 2);
+    second = grid->getNumber(1, 1);
+    third = grid->getNumber(2, 0);
+    if (first == second && second == third && first != 0) {
+      return first;
+    }
 		return -1;
 	}
 
