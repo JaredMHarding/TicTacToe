@@ -1,7 +1,7 @@
 ▪ Name and the last 5 digits of student id for all team members.
 
     Jared Harding,      09583
-    Colin St. Claire,   <Colin's last 5 digits here>
+    Colin St. Claire,   06003
     
 ▪ How to build and run your code.
 
