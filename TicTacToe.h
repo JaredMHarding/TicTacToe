@@ -68,21 +68,21 @@ public:
     }
 
     void startGame() {
-        char row;
-        char col;
+        int row;
+        int col;
         int winner;
         std::cout << "Welcome to TicTacToe!" << '\n';
         while(true) {
             drawGrid();
             std::cout << "Enter your desired row number (0 based): " << '\n';
             std::cin >> row;
-            std::cout << "Enter your desired column number(0 based): " << '\n';
+            std::cout << "Enter your desired column number (0 based): " << '\n';
             std::cin >> col;
             // human move
             while (!placeMark(row, col, human_X)) {
                 std::cout << "Enter your desired row number (0 based): " << '\n';
                 std::cin >> row;
-                std::cout << "Enter your desired column number(0 based): " << '\n';
+                std::cout << "Enter your desired column number (0 based): " << '\n';
                 std::cin >> col;
             }
             // human move

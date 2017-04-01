@@ -9,13 +9,12 @@ int main(int argc, char* argv[]) {
         if (game == "TicTacToe") {
             TicTacToe* g = new TicTacToe();
             g->startGame();
-            return 0;
         }
         else if (game == "TicTacNo") {
             NewGame* g = new NewGame();
             g->startGame();
-            return 0;
         }
+        return 0;
     }
     std::cerr << "Please use 'TicTacToe' or 'TicTacNo' as an argument\n";
     exit(1);
