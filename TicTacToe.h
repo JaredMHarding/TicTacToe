@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <string.h>
 #include "GridGame.h"
@@ -7,7 +9,7 @@ public:
     static const int empty = 0;
     static const int human_X = 1;
     static const int AI_O = 2;
-    static const int inf = 1<<20;
+//    static const int inf = 1<<20;
 
 	TicTacToe() : GridGame(gridSize) {}
 
@@ -66,8 +68,8 @@ public:
     }
 
     void startGame() {
-        int row;
-        int col;
+        char row;
+        char col;
         int winner;
         std::cout << "Welcome to TicTacToe!" << '\n';
         while(true) {
@@ -221,25 +223,11 @@ private:
             // if it couldn't win or block, pick a random slot
             int randRow;
             int randCol;
+            srand(time(0));
             do {
-                randRow = rand() % 3;
-                randCol = rand() % 3;
+                randRow = rand() % gridSize;
+                randCol = rand() % gridSize;
             } while(!placeMark(randRow,randCol,AI_O));
         }
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
