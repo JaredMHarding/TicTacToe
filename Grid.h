@@ -8,7 +8,7 @@ private:
 
     bool isValid(int row, int col) const {
         if (row < 0 || col < 0 || row >= size || col >= size) {
-            std::cout << "INVALID MOVE! Row and column choices must be less than " << size <<". Try again..." << '\n';
+            std::cout << "INVALID MOVE! Row and column choices must be less than " << size << ". Try again..." << '\n';
             return false;
         }
         return true;
